@@ -1,0 +1,12 @@
+{
+  "name": "c-forge-academy",
+  "version": "1.0.0",
+  "description": "Zero to Pro C Language Learning Platform: Lessons, DPPs, Interactive Flowcharts, Visual Memory & Pointer Lab, Code Runner & Quizzes.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["c", "c-programming", "pointers", "memory-management", "dpp", "flowcharts", "algorithms", "systems-programming"],
+  "author": "Kunal",
+  "license": "MIT"
+}

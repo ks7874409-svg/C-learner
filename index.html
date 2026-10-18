@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C-Forge: Zero to Pro C Academy | Interactive Systems Learning</title>
+  <meta name="description" content="Master C language from beginner to pro: in-depth lessons, 30+ DPPs, interactive execution flowcharts, visual RAM memory lab, in-browser compiler, and quizzes.">
+  
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ==========================================
+       SITE HEADER
+       ========================================== -->
+  <header class="site-header">
+    <div class="header-container">
+      <!-- Brand Logo -->
+      <div class="brand-logo" onclick="switchTab('lessons')">
+        <div class="logo-badge">C;</div>
+        <div class="brand-text">
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <h1>C-FORGE</h1>
+            <span class="header-creator-pill"><i class="fa-solid fa-heart text-danger heart-pulse"></i> by Kunal</span>
+          </div>
+          <p>Zero to Pro Systems Academy</p>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="nav-tabs-wrapper">
+        <button class="nav-tab-btn active" data-tab="lessons">
+          <i class="fa-solid fa-book-bookmark"></i> Lessons
+        </button>
+        <button class="nav-tab-btn" data-tab="dpps">
+          <i class="fa-solid fa-code"></i> DPPs (30)
+        </button>
+        <button class="nav-tab-btn" data-tab="flowcharts">
+          <i class="fa-solid fa-diagram-project"></i> Flowcharts
+        </button>
+        <button class="nav-tab-btn" data-tab="memory-lab">
+          <i class="fa-solid fa-microchip"></i> Memory Lab
+        </button>
+        <button class="nav-tab-btn" data-tab="playground">
+          <i class="fa-solid fa-terminal"></i> Playground
+        </button>
+        <button class="nav-tab-btn" data-tab="quizzes">
+          <i class="fa-solid fa-circle-question"></i> Quizzes
+        </button>
+        <button class="nav-tab-btn" data-tab="cheatsheet">
+          <i class="fa-solid fa-map"></i> Roadmap
+        </button>
+        <button class="nav-tab-btn" data-tab="profile">
+          <i class="fa-solid fa-award"></i> Certificate
+        </button>
+      </nav>
+
+      <!-- User Progress & Quick Actions -->
+      <div class="header-actions">
+        <button class="btn btn-secondary btn-xs" onclick="showWelcomeTour()" title="Start Interactive Platform Tour">
+          <i class="fa-solid fa-compass text-accent"></i> Tour
+        </button>
+
+        <button class="search-trigger-btn" onclick="toggleSearchModal()" title="Search Lessons & DPPs (Ctrl+K)">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span>Search</span>
+          <span class="search-shortcut">Ctrl K</span>
+        </button>
+
+        <div class="user-progress-pill">
+          <div class="prog-meta">
+            <span id="headerRank" style="color: #60a5fa;">C Apprentice</span>
+            <span class="xp-counter" id="headerXP">0 XP</span>
+          </div>
+          <div class="prog-bar-track">
+            <div class="prog-bar-fill" id="headerProgressBar"></div>
+          </div>
+          <div style="font-size: 0.68rem; color: var(--text-muted); text-align: right;" id="headerProgressLabel">
+            0/10 Lessons
+          </div>
+        </div>
+
+        <button class="btn btn-icon-only" onclick="toggleAudioMute(this)" title="Toggle Sound FX">
+          <i class="fa-solid fa-volume-high" id="soundIcon"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================
+       MAIN WORKSPACE CONTAINER
+       ========================================== -->
+  <main class="main-wrapper">
+
+    <!-- ----------------------------------------
+         VIEW 1: LESSONS CURRICULUM
+         ---------------------------------------- -->
+    <section class="tab-view active-view" id="view-lessons">
+      <div class="lessons-layout">
+        <!-- Lessons Sidebar Navigation -->
+        <aside class="lessons-sidebar">
+          <div class="sidebar-header">
+            <h2><i class="fa-solid fa-graduation-cap text-accent"></i> Curriculum</h2>
+            <p>10 Modules • Foundational to Linux Kernel Level</p>
+          </div>
+          <div class="sidebar-scrollable" id="lessonsSidebarList">
+            <!-- Rendered by js/app.js -->
+          </div>
+        </aside>
+
+        <!-- Current Lesson Content -->
+        <article class="lesson-content-pane" id="lessonContentArea">
+          <!-- Rendered by js/app.js -->
+        </article>
+      </div>
+    </section>
+
+    <!-- ----------------------------------------
+         VIEW 2: DAILY PRACTICE PROBLEMS (DPPs)
+         ---------------------------------------- -->
+    <section class="tab-view" id="view-dpps">
+      <div class="dpp-top-bar">
+        <div>
+          <h2><i class="fa-solid fa-trophy text-warning"></i> Daily Practice Problems (DPP)</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">From syntax basics to custom allocators and data structures in C.</p>
+        </div>
+
+        <div class="dpp-filter-group">
+          <button class="dpp-filter-btn active" onclick="filterDPPs('All', this)">All</button>
+          <button class="dpp-filter-btn" onclick="filterDPPs('Beginner', this)">Beginner</button>
+          <button class="dpp-filter-btn" onclick="filterDPPs('Intermediate', this)">Intermediate</button>
+          <button class="dpp-filter-btn" onclick="filterDPPs('Advanced', this)">Advanced (Pro)</button>
+        </div>
+      </div>
+
+      <div class="dpp-grid" id="dppCardsGrid">
+        <!-- Rendered by js/app.js -->
+      </div>
+    </section>
+
+    <!-- ----------------------------------------
+         VIEW 3: INTERACTIVE FLOWCHARTS
+         ---------------------------------------- -->
+    <section class="tab-view" id="view-flowcharts">
+      <div class="flowcharts-page">
+        <div class="fc-selector-bar" id="flowchartsNavTabs">
+          <!-- Flowchart selector pills rendered by js/app.js -->
+        </div>
+
+        <div id="flowchartContainer">
+          <!-- Interactive Flowchart Diagram and Tracer rendered by FlowchartViewer -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ----------------------------------------
+         VIEW 4: MEMORY LAB (VISUAL POINTER & RAM SANDBOX)
+         ---------------------------------------- -->
+    <section class="tab-view" id="view-memory-lab">
+      <div class="memlab-page">
+        <div class="memlab-toolbar">
+          <div class="preset-selector-row">
+            <span><i class="fa-solid fa-wand-magic-sparkles text-accent"></i> Interactive Scenarios:</span>
+            <button class="btn btn-secondary btn-sm" onclick="window.memoryLab.loadPreset('swap_comparison')">
+              Pass-by-Reference Swap
+            </button>
+            <button class="btn btn-secondary btn-sm" onclick="window.memoryLab.loadPreset('pointer_arithmetic')">
+              Pointer Arithmetic (p + 1)
+            </button>
+            <button class="btn btn-secondary btn-sm" onclick="window.memoryLab.loadPreset('dangling_pointer')">
+              Dangling Pointer Trap
+            </button>
+            <button class="btn btn-secondary btn-sm" onclick="window.memoryLab.loadPreset('double_pointer')">
+              Double Pointer Indirection (**pp)
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="simulateFreeHeapTrap()">
+              <i class="fa-solid fa-trash text-danger"></i> Simulate free()
+            </button>
+            <button class="btn btn-ghost btn-sm" onclick="window.memoryLab.reset()">
+              <i class="fa-solid fa-rotate-left"></i> Reset RAM
+            </button>
+          </div>
+
+          <div class="memlab-interactive-desc" id="memLabDesc">
+            <strong>Pass-by-Reference in C</strong>: Notice how pointers ptrA and ptrB hold the memory addresses of x and y.
+          </div>
+        </div>
+
+        <div id="memLabContainer">
+          <!-- Rendered by MemoryLab component -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ----------------------------------------
+         VIEW 5: C PLAYGROUND & CODE RUNNER
+         ---------------------------------------- -->
+    <section class="tab-view" id="view-playground">
+      <div class="playground-layout">
+        <!-- Editor Panel -->
+        <div class="editor-panel">
+          <div class="panel-header">
+            <span class="panel-title"><i class="fa-solid fa-code text-accent"></i> C Source Editor</span>
+            <div class="panel-actions">
+              <select class="btn btn-secondary btn-xs" onchange="window.codeRunner.loadPreset(this.value)">
+                <option value="hello">Preset: Hello World</option>
+                <option value="pointer_swap">Preset: Pointer Swap</option>
+                <option value="dynamic_array">Preset: Dynamic Array (malloc/realloc)</option>
+                <option value="linked_list">Preset: Singly Linked List</option>
+                <option value="bitwise">Preset: Bitwise Hacks</option>
+              </select>
+              <button class="btn btn-secondary btn-xs" onclick="window.codeRunner.adjustFontSize(-1)" title="Decrease Font Size">A-</button>
+              <button class="btn btn-secondary btn-xs" onclick="window.codeRunner.adjustFontSize(1)" title="Increase Font Size">A+</button>
+              <button class="btn btn-secondary btn-xs" onclick="window.codeRunner.downloadCode()" title="Download as main.c">
+                <i class="fa-solid fa-download"></i> .c
+              </button>
+              <button class="btn btn-secondary btn-xs" id="btnCopyCode" onclick="window.codeRunner.copyCode()">
+                <i class="fa-solid fa-copy"></i>
+              </button>
+            </div>
+          </div>
+
+          <textarea class="code-textarea" id="cEditorTextarea" spellcheck="false" placeholder="// Write C code here. Press Tab to indent, Ctrl+Enter to run!"></textarea>
+
+          <div class="editor-footer">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <span id="cRunnerStatus" class="runner-status-pill status-idle">
+                <i class="fa-solid fa-terminal"></i> Ready
+              </span>
+              <span class="editor-stats-tag" id="editorStats">Lines: 12 | Chars: 340</span>
+            </div>
+            <button class="btn btn-primary" onclick="window.codeRunner.runCode()" title="Keyboard Shortcut: Ctrl+Enter">
+              <i class="fa-solid fa-play"></i> Run Code (Ctrl+Enter)
+            </button>
+          </div>
+        </div>
+
+        <!-- Output Terminal Panel -->
+        <div class="console-panel">
+          <div class="panel-header">
+            <span class="panel-title"><i class="fa-solid fa-terminal"></i> Output Console / Stdout</span>
+            <button class="btn btn-ghost btn-xs" onclick="window.codeRunner.clearConsole()">
+              <i class="fa-solid fa-eraser"></i> Clear
+            </button>
+          </div>
+
+          <div class="console-output-area" id="cConsoleOutput">
+// C-Forge Interactive Execution Engine
+// Click [Run Code] on the left to compile and view program output.
+          </div>
+
+          <div class="console-stdin-bar">
+            <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">STDIN:</span>
+            <input type="text" id="stdinInput" placeholder="Input values passed into scanf() (e.g. 42)">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ----------------------------------------
+         VIEW 6: MASTERY QUIZZES
+         ---------------------------------------- -->
+    <section class="tab-view" id="view-quizzes">
+      <div style="margin-bottom: 1.5rem;">
+        <h2 style="font-size: 1.6rem; font-weight: 800;"><i class="fa-solid fa-brain text-accent"></i> C Mastery Quizzes</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Test your conceptual understanding of compilation stages, pointer arithmetic, and memory traps.</p>
+      </div>
+
+      <div class="quizzes-grid" id="quizzesContainer">
+        <!-- Rendered by js/app.js -->
+      </div>
+    </section>
+
+    <!-- ----------------------------------------
+         VIEW 7: CHEATSHEET & ROADMAP
+         ---------------------------------------- -->
+    <section class="tab-view" id="view-cheatsheet">
+      <div class="cheatsheet-page">
+        <!-- Systems Engineering Roadmap -->
+        <div class="section-block">
+          <h2><i class="fa-solid fa-compass text-accent"></i> Zero to Pro C Roadmap</h2>
+          <div class="roadmap-flow" id="roadmapStagesContainer">
+            <!-- Rendered by js/app.js -->
+          </div>
+        </div>
+
+        <!-- Format Specifiers -->
+        <div class="section-block">
+          <h2><i class="fa-solid fa-percent text-warning"></i> Format Specifiers Reference</h2>
+          <div class="data-table-wrap">
+            <table class="styled-table">
+              <thead>
+                <tr>
+                  <th>Specifier</th>
+                  <th>C Type</th>
+                  <th>Example</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody id="fmtSpecifiersBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Operator Precedence -->
+        <div class="section-block">
+          <h2><i class="fa-solid fa-calculator text-primary"></i> Operator Precedence & Associativity</h2>
+          <div class="data-table-wrap">
+            <table class="styled-table">
+              <thead>
+                <tr>
+                  <th>Precedence</th>
+                  <th>Operators</th>
+                  <th>Associativity</th>
+                  <th>Category</th>
+                </tr>
+              </thead>
+              <tbody id="precedenceBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Golden Rules of C Memory -->
+        <div class="section-block">
+          <h2><i class="fa-solid fa-shield-halved text-success"></i> 10 Golden Rules of C Memory & Pointer Safety</h2>
+          <div class="golden-rules-grid" id="goldenRulesList">
+            <!-- Rendered by js/app.js -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ----------------------------------------
+         VIEW 8: PROFILE & CERTIFICATE
+         ---------------------------------------- -->
+    <section class="tab-view" id="view-profile">
+      <div class="profile-page">
+        <!-- User Stats Card -->
+        <div class="profile-stats-card">
+          <div class="profile-identity">
+            <div class="user-avatar-hex">
+              <i class="fa-solid fa-user-astronaut"></i>
+            </div>
+            <div class="profile-name-edit">
+              <input type="text" id="profileUserNameInput" value="C Programmer" placeholder="Your Full Name">
+              <button class="btn btn-primary btn-sm" onclick="updateProfileName()">Save</button>
+            </div>
+            <span class="badge badge-accent" id="profileRankTitle" style="width: fit-content;">C Apprentice</span>
+          </div>
+
+          <div class="stats-counters-grid">
+            <div class="stat-box">
+              <div class="stat-number" id="profileTotalXP">0</div>
+              <div class="stat-label">Total XP Earned</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-number" id="profileLessonsCount">0/10</div>
+              <div class="stat-label">Lessons Completed</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-number" id="profileDPPsCount">0/30</div>
+              <div class="stat-label">DPPs Solved</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-number" style="color: var(--accent-emerald);">Active</div>
+              <div class="stat-label">Status</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Name Personalization Card for Certificate -->
+        <div class="cert-name-prompt-card">
+          <div class="prompt-text">
+            <h3><i class="fa-solid fa-signature text-accent"></i> Personalize Your Certificate of Mastery</h3>
+            <p>Enter your full legal name as you want it to appear on your official credential:</p>
+          </div>
+          <div class="prompt-input-row">
+            <input type="text" id="certDirectNameInput" placeholder="Enter your full name (e.g. Kunal Sharma, Alex Smith)..." onkeydown="if(event.key==='Enter') saveCertNameDirectly()">
+            <button class="btn btn-primary" onclick="saveCertNameDirectly()">
+              <i class="fa-solid fa-signature"></i> Update Certificate Name
+            </button>
+          </div>
+        </div>
+
+        <!-- Official Certificate of Mastery -->
+        <div class="certificate-container" id="certificateBox">
+          <div class="cert-seal">
+            <i class="fa-solid fa-code"></i>
+          </div>
+          <div class="cert-header">
+            <h2>CERTIFICATE OF C SYSTEMS MASTERY</h2>
+            <p>ISSUED BY C-FORGE ACADEMY</p>
+          </div>
+
+          <div class="cert-body">
+            <p>This credential certifies that</p>
+            <div class="cert-recipient" id="certRecipientName" onclick="promptNameChange()" title="Click to edit name on certificate">
+              C Programmer <i class="fa-solid fa-pencil cert-edit-icon"></i>
+            </div>
+            <p>has mastered the principles of C Programming, memory addressing, pointers, dynamic heap management, and data structures.</p>
+          </div>
+
+          <div class="cert-footer">
+            <div class="cert-sign-col">
+              <p>DIRECTOR & CREATOR</p>
+              <strong style="color: var(--accent-cyan);">Kunal</strong>
+            </div>
+            <div class="cert-sign-col">
+              <p>RANK ACHIEVED</p>
+              <strong id="certRankEarned">C Apprentice</strong>
+            </div>
+            <div class="cert-sign-col">
+              <p>TOTAL EXPERIENCE</p>
+              <strong id="certXPEarned">0 XP Points</strong>
+            </div>
+            <div class="cert-sign-col">
+              <p>VERIFICATION DATE</p>
+              <strong id="certIssueDate">October 18, 2026</strong>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 1rem;">
+          <button class="btn btn-primary btn-lg" onclick="printCertificate()">
+            <i class="fa-solid fa-print"></i> Print / Save Certificate as PDF
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================
+       SITE FOOTER (DEDICATED CREATOR SPACE)
+       ========================================== -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-brand-side">
+        <div class="footer-badge">C;</div>
+        <div>
+          <span class="footer-title">C-FORGE ACADEMY</span>
+          <p class="footer-sub">Zero to Pro C Language Mastery</p>
+        </div>
+      </div>
+
+      <div class="footer-creator-center">
+        <div class="creator-dedicated-card">
+          <span class="craft-label">CRAFTED WITH PRECISION & PASSION</span>
+          <div class="kunal-badge">
+            <i class="fa-solid fa-code text-accent"></i>
+            <span>Made by <strong class="kunal-name">Kunal</strong></span>
+            <i class="fa-solid fa-heart text-danger heart-pulse"></i>
+          </div>
+          <span class="craft-sub">Empowering Systems Programmers & Future Kernel Hackers</span>
+        </div>
+      </div>
+
+      <div class="footer-links-side">
+        <button class="btn btn-secondary btn-xs" onclick="switchTab('lessons')"><i class="fa-solid fa-book"></i> Lessons</button>
+        <button class="btn btn-secondary btn-xs" onclick="switchTab('dpps')"><i class="fa-solid fa-trophy"></i> DPPs</button>
+        <button class="btn btn-secondary btn-xs" onclick="switchTab('memory-lab')"><i class="fa-solid fa-microchip"></i> RAM Lab</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================
+       MODALS: DPP SOLVER & SEARCH
+       ========================================== -->
+  <!-- DPP Solver Modal -->
+  <div class="modal-overlay" id="dppSolverModal">
+    <div class="modal-window dpp-modal-box">
+      <div class="modal-top">
+        <div>
+          <span style="font-size: 0.75rem; color: var(--accent-cyan); font-weight: 700;" id="modalDPPDay">DPP Day 1</span>
+          <h2 style="font-size: 1.3rem; color: #fff;" id="modalDPPTitle">Problem Title</h2>
+        </div>
+        <button class="btn btn-ghost btn-icon-only" onclick="closeDPPModal()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="dpp-solver-grid">
+          <!-- Specification Pane -->
+          <div class="dpp-spec-pane">
+            <div class="spec-block">
+              <h4>Problem Description</h4>
+              <div id="modalDPPDesc" style="font-size: 0.9rem; color: #cbd5e1; line-height: 1.5;"></div>
+            </div>
+
+            <div class="spec-block">
+              <h4>Constraints</h4>
+              <p id="modalDPPConstraints" style="font-family: var(--font-mono); font-size: 0.85rem; color: #94a3b8;"></p>
+            </div>
+
+            <div class="spec-block">
+              <h4>Sample Input / Expected Output</h4>
+              <div style="font-family: var(--font-mono); font-size: 0.85rem; background: #070a10; padding: 0.6rem; border-radius: 4px;">
+                <div><span style="color: var(--text-muted);">Input:</span> <span id="modalDPPSampleIn"></span></div>
+                <div><span style="color: var(--accent-cyan);">Output:</span> <span id="modalDPPSampleOut"></span></div>
+              </div>
+            </div>
+
+            <div id="modalDPPHints"></div>
+            <div id="modalDPPSolutionArea"></div>
+          </div>
+
+          <!-- Code Solver Pane -->
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center;">
+              <span><i class="fa-solid fa-code text-accent"></i> Write C Solution <span style="font-size: 0.72rem; font-weight: normal;">(Tab to indent)</span></span>
+              <div style="display: flex; gap: 0.4rem; align-items: center;">
+                <button class="btn btn-ghost btn-xs" onclick="resetDPPStarterCode()" title="Reset to original starter code">
+                  <i class="fa-solid fa-rotate-left"></i> Reset
+                </button>
+                <span id="modalDPPVerdict"><span class="badge badge-secondary">Ready</span></span>
+              </div>
+            </div>
+
+            <textarea id="modalDPPEditor" class="code-textarea" style="height: 300px; border-radius: var(--radius-md); border: 1px solid var(--border-color);"></textarea>
+
+            <!-- Custom Stdin Bar -->
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 0.5rem 0.75rem; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 0.6rem;">
+              <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted);">Custom Stdin:</span>
+              <input type="text" id="modalCustomStdin" placeholder="Custom test input..." style="flex: 1; background: var(--bg-surface); border: 1px solid var(--border-color); padding: 0.3rem 0.6rem; color: #fff; font-family: var(--font-mono); font-size: 0.8rem; border-radius: 4px;">
+              <button class="btn btn-secondary btn-xs" onclick="runCustomDPPInput()">
+                <i class="fa-solid fa-play"></i> Test Stdin
+              </button>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <button class="btn btn-ghost btn-sm" onclick="closeDPPModal()">Close</button>
+              <button class="btn btn-primary" onclick="testAndSubmitDPP()">
+                <i class="fa-solid fa-cloud-arrow-up"></i> Test All Cases & Submit (+XP)
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Modal (Ctrl+K) -->
+  <div class="modal-overlay" id="searchModal" onclick="if(event.target === this) toggleSearchModal()">
+    <div class="modal-window search-modal-box">
+      <div class="search-input-wrap">
+        <i class="fa-solid fa-magnifying-glass text-muted"></i>
+        <input type="text" id="globalSearchInput" placeholder="Search lessons, DPPs, pointers, memory rules...">
+        <span class="search-shortcut">ESC</span>
+      </div>
+      <div class="search-results-list" id="searchResultsList">
+        <div class="empty-search">Type keywords to search lessons, DPPs, and concepts...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Welcome Tour Modal for Beginners -->
+  <div class="modal-overlay" id="welcomeTourModal" onclick="if(event.target === this) closeWelcomeTour()">
+    <div class="modal-window tour-modal-box">
+      <div class="tour-icon"><i class="fa-solid fa-microchip"></i></div>
+      <h2 style="font-size: 1.8rem; font-weight: 800; color: #fff;">Welcome to C-Forge Academy!</h2>
+      <p style="color: var(--text-secondary); margin-top: 0.5rem; font-size: 0.95rem;">
+        Master the C programming language from absolute ground zero to Linux kernel level with visual intuition and real practice.
+      </p>
+
+      <div class="tour-steps-grid">
+        <div class="tour-step-card">
+          <div style="font-size: 1.5rem; color: var(--accent-cyan); margin-bottom: 0.5rem;"><i class="fa-solid fa-book-open"></i></div>
+          <h4>1. In-Depth Lessons</h4>
+          <p>10 structured modules covering compilation, pointers, heap allocation, and data structures.</p>
+        </div>
+        <div class="tour-step-card">
+          <div style="font-size: 1.5rem; color: var(--accent-emerald); margin-bottom: 0.5rem;"><i class="fa-solid fa-microchip"></i></div>
+          <h4>2. Visual Memory Lab</h4>
+          <p>Watch RAM byte cells, physical addresses, and pointer arrows update interactively.</p>
+        </div>
+        <div class="tour-step-card">
+          <div style="font-size: 1.5rem; color: var(--accent-amber); margin-bottom: 0.5rem;"><i class="fa-solid fa-code"></i></div>
+          <h4>3. 30 DPPs & Playground</h4>
+          <p>Solve progressive problems, test test-cases live, earn XP, and print your Mastery Certificate!</p>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: center; gap: 0.75rem;">
+        <button class="btn btn-primary btn-lg" onclick="closeWelcomeTour(); window.soundFX.playSuccess();">
+          <i class="fa-solid fa-rocket"></i> Get Started Now
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+  <!-- Application Scripts -->
+  <script src="js/data/lessons.js"></script>
+  <script src="js/data/dpps.js"></script>
+  <script src="js/data/flowcharts.js"></script>
+  <script src="js/data/cheatsheet.js"></script>
+  <script src="js/components/memoryLab.js"></script>
+  <script src="js/components/flowchartViewer.js"></script>
+  <script src="js/components/codeRunner.js"></script>
+  <script src="js/app.js"></script>
+
+  <script>
+    // Additional helper UI functions
+    function toggleAudioMute(btn) {
+      if (!window.soundFX) return;
+      window.soundFX.enabled = !window.soundFX.enabled;
+      localStorage.setItem("cforge_sound", window.soundFX.enabled);
+      const icon = document.getElementById("soundIcon");
+      if (icon) {
+        icon.className = window.soundFX.enabled ? "fa-solid fa-volume-high" : "fa-solid fa-volume-xmark";
+      }
+      if (window.soundFX.enabled) window.soundFX.playSuccess();
+    }
+
+    function simulateFreeHeapTrap() {
+      if (!window.memoryLab) return;
+      // Find active heap address
+      const active = window.memoryLab.heapMemory.find(b => !b.isFreed);
+      if (active) {
+        window.memoryLab.freeHeapBlock(active.address);
+        window.memoryLab.setScenarioDescription(
+          "Heap Memory Freed! (Dangling Pointer Trap Triggered)",
+          `Memory block at ${active.address} was released with free(). Notice how the pointer on the stack STILL retains this address! Dereferencing this pointer now causes Undefined Behavior. Fix by executing 'ptr = NULL;'!`
+        );
+        if (window.soundFX) window.soundFX.playError();
+      } else {
+        window.memoryLab.addHeapBlock(4, "42", "malloc(4)");
+      }
+    }
+  </script>
+</body>
+</html>
